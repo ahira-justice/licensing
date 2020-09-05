@@ -12,6 +12,7 @@ namespace Licensing.Constants {
 
                 return _keyString;
             }
+            private set { _keyString = value; }
         }
 
         public static string FileDirectory {
@@ -22,7 +23,7 @@ namespace Licensing.Constants {
 
         public static void Initialize() {
             // Set your custom public key here
-            _keyString = "";
+            KeyString = "";
         }
     }
 }
