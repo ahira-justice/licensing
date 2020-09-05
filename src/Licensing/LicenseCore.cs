@@ -6,7 +6,7 @@ using Licensing.Models;
 
 namespace Licensing {
 
-    internal static class LicenseCore {
+    public static class LicenseCore {
 
         private static string _preferenceDirectory;
 
@@ -33,7 +33,7 @@ namespace Licensing {
             }
         }
 
-        public static void Initialize() {
+        private static void Initialize() {
             BaseDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             AppDirectory = @"\App";
 
@@ -44,6 +44,8 @@ namespace Licensing {
         }
 
         public static LicenseKeyModel GetCurrentLicensePrefs() {
+            Initialize();
+
             try {
                 using(Stream openFileStream = File.OpenRead(LicensePrefsFileName)) {
                     BinaryFormatter deserializer = new BinaryFormatter();
@@ -60,6 +62,8 @@ namespace Licensing {
         }
 
         public static void SaveLicensePrefs(LicenseKeyModel value) {
+            Initialize();
+
             Stream saveFileStream = File.Create(LicensePrefsFileName);
             BinaryFormatter serializer = new BinaryFormatter();
 
