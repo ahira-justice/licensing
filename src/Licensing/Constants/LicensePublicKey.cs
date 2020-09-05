@@ -2,7 +2,7 @@ using System.IO;
 using Licensing.Exceptions;
 
 namespace Licensing.Constants {
-    public static class LicensePublicKey {
+    internal static class LicensePublicKey {
         private static string _keyString;
 
         public static string KeyString {
