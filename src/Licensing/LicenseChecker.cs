@@ -17,6 +17,7 @@ namespace Licensing {
         // Overwrite with your chosen key size
         private static int KeySize { get => 2048; }
         private static int Month { get => 30; }
+        private static string SignatureHashAlgorithm { get => "SHA256"; }
 
         private static void Initialize() {
             var keyFile = File.CreateText(LicensePublicKey.FileDirectory);
@@ -46,7 +47,7 @@ namespace Licensing {
 
             using(RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(KeySize)) {
                 RSA.ImportParameters(GetPublicKeyFromPemFile(LicensePublicKey.FileDirectory));
-                return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID("SHA256"), signatureBytes);
+                return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID(SignatureHashAlgorithm), signatureBytes);
             }
         }
 
@@ -65,8 +66,8 @@ namespace Licensing {
 
             return new LicenseKeyDataModel {
                 Email = splittedTextData[0],
-                EpochTime = Int32.Parse(splittedTextData[1]),
-                Permissions = new PermissionsModel(Int32.Parse(splittedTextData[2]))
+                    EpochTime = Int32.Parse(splittedTextData[1]),
+                    Permissions = new PermissionsModel(Int32.Parse(splittedTextData[2]))
             };
         }
 
