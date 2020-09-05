@@ -36,8 +36,8 @@ namespace Licensing {
 
                 return rsaParams;
             }
-            catch (Exception ex) {
-                throw ex;
+            catch (Exception) {
+                throw new PemFileInvalidException();
             }
         }
 
