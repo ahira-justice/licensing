@@ -12,16 +12,17 @@ namespace Licensing.Constants {
 
                 return _keyString;
             }
-            set {
-                // Set your custom public key here
-                _keyString = "";
-            }
         }
 
         public static string FileDirectory {
             get {
                 return Directory.GetCurrentDirectory() + @"\public_key.pem";
             }
+        }
+
+        public static void Initialize() {
+            // Set your custom public key here
+            _keyString = "";
         }
     }
 }

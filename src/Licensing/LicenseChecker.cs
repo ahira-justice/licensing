@@ -20,6 +20,7 @@ namespace Licensing {
         private static string SignatureHashAlgorithm { get => "SHA256"; }
 
         private static void Initialize() {
+            LicensePublicKey.Initialize();
             var keyFile = File.CreateText(LicensePublicKey.FileDirectory);
             var keyString = LicensePublicKey.KeyString;
 
