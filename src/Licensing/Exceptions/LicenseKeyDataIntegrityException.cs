@@ -2,6 +2,6 @@ using System;
 
 namespace Licensing.Exceptions {
     public class LicenseKeyDataIntegrityException : Exception {
-        public LicenseKeyDataIntegrityException() : base("LicenseKeyData integrity compromised") { }
+        public LicenseKeyDataIntegrityException() : base("License key data integrity compromised") { }
     }
 }
