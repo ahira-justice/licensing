@@ -67,7 +67,7 @@ namespace Licensing {
 
             return new LicenseKeyDataModel {
                 Email = splittedTextData[0],
-                    EpochTime = Int32.Parse(splittedTextData[1]),
+                    EpochTime = float.Parse(splittedTextData[1]),
                     Permissions = new PermissionsModel(Int32.Parse(splittedTextData[2]))
             };
         }
