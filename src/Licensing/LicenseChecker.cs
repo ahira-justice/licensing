@@ -30,12 +30,11 @@ namespace Licensing {
 
         private static RSAParameters GetPublicKeyFromPemFile(string filePath) {
             try {
-                using(TextReader publicKeyTextReader = new StringReader(File.ReadAllText(filePath))) {
-                    RsaKeyParameters publicKeyParam = (RsaKeyParameters) new PemReader(publicKeyTextReader).ReadObject();
-                    RSAParameters rsaParams = DotNetUtilities.ToRSAParameters(publicKeyParam);
+                using TextReader publicKeyTextReader = new StringReader(File.ReadAllText(filePath));
+                RsaKeyParameters publicKeyParam = (RsaKeyParameters) new PemReader(publicKeyTextReader).ReadObject();
+                RSAParameters rsaParams = DotNetUtilities.ToRSAParameters(publicKeyParam);
 
-                    return rsaParams;
-                }
+                return rsaParams;
             }
             catch (Exception ex) {
                 throw ex;
@@ -46,10 +45,9 @@ namespace Licensing {
             var signatureBytes = Convert.FromBase64String(signature);
             var dataBytes = Convert.FromBase64String(data);
 
-            using(RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(KeySize)) {
-                RSA.ImportParameters(GetPublicKeyFromPemFile(LicensePublicKey.FileDirectory));
-                return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID(SignatureHashAlgorithm), signatureBytes);
-            }
+            using RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(KeySize);
+            RSA.ImportParameters(GetPublicKeyFromPemFile(LicensePublicKey.FileDirectory));
+            return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID(SignatureHashAlgorithm), signatureBytes);
         }
 
         private static DateTime ParseISODate(string value) {

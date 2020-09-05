@@ -47,14 +47,13 @@ namespace Licensing {
             Initialize();
 
             try {
-                using(Stream openFileStream = File.OpenRead(LicensePrefsFileName)) {
-                    BinaryFormatter deserializer = new BinaryFormatter();
+                using Stream openFileStream = File.OpenRead(LicensePrefsFileName);
+                BinaryFormatter deserializer = new BinaryFormatter();
 
-                    var licensePrefs = (LicenseKeyModel) deserializer.Deserialize(openFileStream);
-                    openFileStream.Close();
+                var licensePrefs = (LicenseKeyModel) deserializer.Deserialize(openFileStream);
+                openFileStream.Close();
 
-                    return licensePrefs;
-                }
+                return licensePrefs;
             }
             catch (Exception) {
                 throw new LicensePrefsInvalidException();
