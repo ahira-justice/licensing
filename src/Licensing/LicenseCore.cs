@@ -45,7 +45,7 @@ namespace Licensing {
 
         public static LicenseKeyPrefsModel GetCurrentLicensePrefs() {
             Initialize();
-
+            
             try {
                 using Stream openFileStream = File.OpenRead(LicensePrefsFileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
@@ -61,8 +61,6 @@ namespace Licensing {
         }
 
         public static void SaveLicensePrefs(LicenseKeyPrefsModel value) {
-            Initialize();
-            
             Stream saveFileStream = File.Create(LicensePrefsFileName);
             BinaryFormatter serializer = new BinaryFormatter();
 
