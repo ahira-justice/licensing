@@ -28,7 +28,7 @@ namespace Licensing {
 
         private static void InitializeLicensePrefs() {
             if (!File.Exists(LicensePrefsFileName)) {
-                var defaultLicensePrefs = new LicenseKeyModel();
+                var defaultLicensePrefs = new LicenseKeyPrefsModel();
                 SaveLicensePrefs(defaultLicensePrefs);
             }
         }
@@ -43,14 +43,14 @@ namespace Licensing {
             InitializeLicensePrefs();
         }
 
-        public static LicenseKeyModel GetCurrentLicensePrefs() {
+        public static LicenseKeyPrefsModel GetCurrentLicensePrefs() {
             Initialize();
 
             try {
                 using Stream openFileStream = File.OpenRead(LicensePrefsFileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
-                var licensePrefs = (LicenseKeyModel) deserializer.Deserialize(openFileStream);
+                var licensePrefs = (LicenseKeyPrefsModel) deserializer.Deserialize(openFileStream);
                 openFileStream.Close();
 
                 return licensePrefs;
@@ -60,9 +60,9 @@ namespace Licensing {
             }
         }
 
-        public static void SaveLicensePrefs(LicenseKeyModel value) {
+        public static void SaveLicensePrefs(LicenseKeyPrefsModel value) {
             Initialize();
-
+            
             Stream saveFileStream = File.Create(LicensePrefsFileName);
             BinaryFormatter serializer = new BinaryFormatter();
 
