@@ -3,8 +3,8 @@ namespace Licensing.Models {
     public class LicenseKeyModel {
 
         public string Signature { get; set; }
-        public string Data { get; set; }
-        public int Expiry { get; set; }
+        public string RawData { get; set; }
+        public LicenseKeyDataModel Data { get; set; }
 
     }
 

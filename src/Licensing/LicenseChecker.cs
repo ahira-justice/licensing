@@ -60,14 +60,15 @@ namespace Licensing {
             if (!IsServerLicenseValid(licenseKey))
                 throw new LicenseKeyDataIntegrityException();
 
-            var dataBytes = Convert.FromBase64String(licenseKey.Data);
+            var dataBytes = Convert.FromBase64String(licenseKey.RawData);
             var textData = Encoding.UTF8.GetString(dataBytes);
             var splittedTextData = textData.Split(", ");
 
             return new LicenseKeyDataModel {
                     Email = splittedTextData[0],
                     EpochTime = float.Parse(splittedTextData[1]),
-                    Subscription = (SubscriptionTier) Int32.Parse(splittedTextData[2])
+                    Subscription = (SubscriptionTier) Int32.Parse(splittedTextData[2]),
+                    Expiry = Int32.Parse(splittedTextData[3])
             };
         }
 
@@ -80,13 +81,13 @@ namespace Licensing {
 
         public static bool IsServerLicenseValid(LicenseKeyModel licenseKey) {
             Initialize();
-            var result = VerifyDataIntegrity(licenseKey.Signature, licenseKey.Data);
+            var result = VerifyDataIntegrity(licenseKey.Signature, licenseKey.RawData);
             File.Delete(LicensePublicKey.FileDirectory);
             return result;
         }
 
         public static bool IsClientLicenseExpired(LicenseKeyPrefsModel licenseKey) {
-            var expiryDate = ParseISODate(licenseKey.ActivatedAt) + TimeSpan.FromDays(Month * licenseKey.Expiry);
+            var expiryDate = ParseISODate(licenseKey.ActivatedAt) + TimeSpan.FromDays(Month * licenseKey.Data.Expiry);
 
             if (DateTime.Now > expiryDate)
                 return true;
@@ -95,7 +96,7 @@ namespace Licensing {
         }
 
         public static bool IsServerLicenseExpired(LicenseKeyModel licenseKey, DateTime now) {
-            var expiryDate = now + TimeSpan.FromDays(Month * licenseKey.Expiry);
+            var expiryDate = now + TimeSpan.FromDays(Month * licenseKey.Data.Expiry);
 
             if (DateTime.Now > expiryDate)
                 return true;
