@@ -72,9 +72,9 @@ namespace Licensing {
             };
         }
 
-        public static bool IsClientLicenseValid(LicenseKeyPrefsModel licenseKey) {
+        public static bool IsClientLicenseValid(LicenseKeyPrefsModel licenseKeyPrefs) {
             Initialize();
-            var result = VerifyDataIntegrity(licenseKey.Signature, licenseKey.RawData);
+            var result = VerifyDataIntegrity(licenseKeyPrefs.Signature, licenseKeyPrefs.RawData);
             File.Delete(LicensePublicKey.FileDirectory);
             return result;
         }
@@ -86,8 +86,8 @@ namespace Licensing {
             return result;
         }
 
-        public static bool IsClientLicenseExpired(LicenseKeyPrefsModel licenseKey) {
-            var expiryDate = ParseISODate(licenseKey.ActivatedAt) + TimeSpan.FromDays(Month * licenseKey.Data.Expiry);
+        public static bool IsClientLicenseExpired(LicenseKeyPrefsModel licenseKeyPrefs) {
+            var expiryDate = ParseISODate(licenseKeyPrefs.ActivatedAt) + TimeSpan.FromDays(Month * licenseKeyPrefs.Data.Expiry);
 
             if (DateTime.Now > expiryDate)
                 return true;
