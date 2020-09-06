@@ -63,7 +63,7 @@ namespace Licensing {
 
         public static LicenseKeyDataModel ParseLicenseKeyData(LicenseKeyModel licenseKey) {
             if (!IsServerLicenseValid(licenseKey))
-                throw new LicenseKeyDataIntegrityException();
+                throw new LicenseKeyIntegrityException();
 
             var dataBytes = Convert.FromBase64String(licenseKey.RawData);
             var textData = Encoding.UTF8.GetString(dataBytes);
