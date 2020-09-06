@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Licensing.Constants;
+using Licensing.Enums;
 using Licensing.Exceptions;
 using Licensing.Models;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -64,9 +65,9 @@ namespace Licensing {
             var splittedTextData = textData.Split(", ");
 
             return new LicenseKeyDataModel {
-                Email = splittedTextData[0],
+                    Email = splittedTextData[0],
                     EpochTime = float.Parse(splittedTextData[1]),
-                    Permissions = new PermissionsModel(Int32.Parse(splittedTextData[2]))
+                    Subscription = (SubscriptionTier) Int32.Parse(splittedTextData[2])
             };
         }
 

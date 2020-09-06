@@ -1,4 +1,5 @@
 using System;
+using Licensing.Enums;
 
 namespace Licensing.Models {
 
@@ -7,7 +8,7 @@ namespace Licensing.Models {
 
         public string Email { get; set; }
         public float EpochTime { get; set; }
-        public PermissionsModel Permissions { get; set; }
+        public SubscriptionTier Subscription { get; set; }
 
     }
 }
