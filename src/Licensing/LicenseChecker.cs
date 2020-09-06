@@ -43,12 +43,17 @@ namespace Licensing {
         }
 
         private static bool VerifyDataIntegrity(string signature, string data) {
-            var signatureBytes = Convert.FromBase64String(signature);
-            var dataBytes = Convert.FromBase64String(data);
+            try {
+                var signatureBytes = Convert.FromBase64String(signature);
+                var dataBytes = Convert.FromBase64String(data);
 
-            using RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(KeySize);
-            RSA.ImportParameters(GetPublicKeyFromPemFile(LicensePublicKey.FileDirectory));
-            return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID(SignatureHashAlgorithm), signatureBytes);
+                using RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(KeySize);
+                RSA.ImportParameters(GetPublicKeyFromPemFile(LicensePublicKey.FileDirectory));
+                return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID(SignatureHashAlgorithm), signatureBytes);
+            }
+            catch (Exception) {
+                throw new LicenseKeyDataIntegrityException();
+            }
         }
 
         private static DateTime ParseISODate(string value) {
