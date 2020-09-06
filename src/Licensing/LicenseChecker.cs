@@ -42,7 +42,7 @@ namespace Licensing {
             }
         }
 
-        private static bool VerifyDataIntegrity(string signature, string data) {
+        private static bool VerifySignatureDataIntegrity(string signature, string data) {
             try {
                 var signatureBytes = Convert.FromBase64String(signature);
                 var dataBytes = Convert.FromBase64String(data);
@@ -52,7 +52,7 @@ namespace Licensing {
                 return RSA.VerifyData(dataBytes, CryptoConfig.MapNameToOID(SignatureHashAlgorithm), signatureBytes);
             }
             catch (Exception) {
-                throw new LicenseKeyDataIntegrityException();
+                throw new LicenseKeyIntegrityException();
             }
         }
 
@@ -79,14 +79,14 @@ namespace Licensing {
 
         public static bool IsClientLicenseValid(LicenseKeyPrefsModel licenseKeyPrefs) {
             Initialize();
-            var result = VerifyDataIntegrity(licenseKeyPrefs.Signature, licenseKeyPrefs.RawData);
+            var result = VerifySignatureDataIntegrity(licenseKeyPrefs.Signature, licenseKeyPrefs.RawData);
             File.Delete(LicensePublicKey.FileDirectory);
             return result;
         }
 
         public static bool IsServerLicenseValid(LicenseKeyModel licenseKey) {
             Initialize();
-            var result = VerifyDataIntegrity(licenseKey.Signature, licenseKey.RawData);
+            var result = VerifySignatureDataIntegrity(licenseKey.Signature, licenseKey.RawData);
             File.Delete(LicensePublicKey.FileDirectory);
             return result;
         }
