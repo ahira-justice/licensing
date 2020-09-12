@@ -39,12 +39,11 @@ namespace Licensing {
 
             LicensePrefsDirectory = BaseDirectory + AppDirectory + @"\Data";
             LicensePrefsFileName = LicensePrefsDirectory + @"\LicensePrefs.bin";
-
-            InitializeLicensePrefs();
         }
 
         public static LicenseKeyPrefsModel GetCurrentLicensePrefs() {
             Initialize();
+            InitializeLicensePrefs();
             
             try {
                 using Stream openFileStream = File.OpenRead(LicensePrefsFileName);
@@ -61,6 +60,7 @@ namespace Licensing {
         }
 
         public static void SaveLicensePrefs(LicenseKeyPrefsModel value) {
+            Initialize();
             Stream saveFileStream = File.Create(LicensePrefsFileName);
             BinaryFormatter serializer = new BinaryFormatter();
 
