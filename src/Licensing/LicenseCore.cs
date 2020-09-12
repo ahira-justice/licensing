@@ -26,13 +26,6 @@ namespace Licensing {
             }
         }
 
-        private static void InitializeLicensePrefs() {
-            if (!File.Exists(LicensePrefsFileName)) {
-                var defaultLicensePrefs = new LicenseKeyPrefsModel();
-                SaveLicensePrefs(defaultLicensePrefs);
-            }
-        }
-
         private static void Initialize() {
             BaseDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             AppDirectory = @"\App";
@@ -43,8 +36,7 @@ namespace Licensing {
 
         public static LicenseKeyPrefsModel GetCurrentLicensePrefs() {
             Initialize();
-            InitializeLicensePrefs();
-            
+
             try {
                 using Stream openFileStream = File.OpenRead(LicensePrefsFileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
