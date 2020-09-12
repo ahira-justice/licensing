@@ -46,6 +46,9 @@ namespace Licensing {
 
                 return licensePrefs;
             }
+            catch (Exception ex) when(ex is FileNotFoundException) {
+                throw new LicensePrefsDoesNotExistException();
+            }
             catch (Exception) {
                 throw new LicensePrefsInvalidException();
             }
