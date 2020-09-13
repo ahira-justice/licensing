@@ -8,8 +8,8 @@ namespace Licensing.Models {
 
         public string Email { get; set; }
         public float EpochTime { get; set; }
-        public SubscriptionTier Subscription { get; set; }
         public int Expiry { get; set; }
+        public SubscriptionTier Subscription { get; set; }
 
     }
 }

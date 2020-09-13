@@ -72,8 +72,8 @@ namespace Licensing {
             return new LicenseKeyDataModel {
                     Email = splittedTextData[0],
                     EpochTime = float.Parse(splittedTextData[1]),
-                    Subscription = (SubscriptionTier) Int32.Parse(splittedTextData[2]),
-                    Expiry = Int32.Parse(splittedTextData[3])
+                    Expiry = Int32.Parse(splittedTextData[2]),
+                    Subscription = (SubscriptionTier) Int32.Parse(splittedTextData[3])
             };
         }
 
