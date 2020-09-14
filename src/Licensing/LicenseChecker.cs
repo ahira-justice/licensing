@@ -91,7 +91,7 @@ namespace Licensing {
             return result;
         }
 
-        public static bool IsClientLicenseExpired(LicenseKeyPrefsModel licenseKeyPrefs) {
+        public static bool IsLicenseExpired(LicenseKeyPrefsModel licenseKeyPrefs) {
             var expiryDate = ParseISODate(licenseKeyPrefs.ActivatedAt) + TimeSpan.FromDays(Month * licenseKeyPrefs.Data.Expiry);
 
             if (DateTime.Now > expiryDate)
@@ -99,15 +99,7 @@ namespace Licensing {
 
             return false;
         }
-
-        public static bool IsServerLicenseExpired(LicenseKeyModel licenseKey, DateTime now) {
-            var expiryDate = now + TimeSpan.FromDays(Month * licenseKey.Data.Expiry);
-
-            if (DateTime.Now > expiryDate)
-                return true;
-
-            return false;
-        }
+        
     }
 
 }
