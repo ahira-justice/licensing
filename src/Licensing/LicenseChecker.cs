@@ -67,7 +67,7 @@ namespace Licensing {
             if (!IsServerLicenseValid(licenseKey))
                 throw new LicenseKeyIntegrityException();
 
-            var dataBytes = Convert.FromBase64String(licenseKey.RawData);
+            var dataBytes = Convert.FromBase64String(licenseKey.Data);
             var textData = Encoding.UTF8.GetString(dataBytes);
             var splittedTextData = textData.Split(", ");
 
@@ -88,7 +88,7 @@ namespace Licensing {
 
         public static bool IsServerLicenseValid(LicenseKeyModel licenseKey) {
             Initialize();
-            var result = VerifySignatureDataIntegrity(licenseKey.Signature, licenseKey.RawData);
+            var result = VerifySignatureDataIntegrity(licenseKey.Signature, licenseKey.Data);
             File.Delete(LicensePublicKey.FileDirectory);
             return result;
         }
