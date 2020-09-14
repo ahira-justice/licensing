@@ -17,7 +17,9 @@ namespace Licensing {
 
         // Overwrite with your chosen key size
         private static int KeySize { get => 2048; }
+        private static int Year { get => 365; }
         private static int Month { get => 30; }
+        private static int Week { get => 7; }
         private static string SignatureHashAlgorithm { get => "SHA256"; }
 
         private static void Initialize() {
