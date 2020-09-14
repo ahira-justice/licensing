@@ -58,12 +58,7 @@ namespace Licensing {
             }
         }
 
-        private static DateTime ParseISODate(string value) {
-            var dateArray = value.Split("-").Select(n => Convert.ToInt32(n)).ToArray();
-            return new DateTime(dateArray[0], dateArray[1], dateArray[2]);
-        }
-
-        public static LicenseKeyDataModel ParseLicenseKeyData(LicenseKeyModel licenseKey) {
+        public static LicenseKeyPrefsModel ParseLicenseKeyPrefs(LicenseKeyModel licenseKey) {
             if (!IsServerLicenseValid(licenseKey))
                 throw new LicenseKeyIntegrityException();
 
@@ -71,11 +66,16 @@ namespace Licensing {
             var textData = Encoding.UTF8.GetString(dataBytes);
             var splittedTextData = textData.Split(", ");
 
-            return new LicenseKeyDataModel {
+            return new LicenseKeyPrefsModel {
+                Signature = licenseKey.Signature,
+                RawData = licenseKey.Data,
+                Data = new LicenseKeyDataModel {
                     Email = splittedTextData[0],
                     EpochTime = float.Parse(splittedTextData[1]),
                     Expiry = Int32.Parse(splittedTextData[2]),
                     Subscription = (SubscriptionTier) Int32.Parse(splittedTextData[3])
+                },
+                ActivatedAt = DateTime.Now
             };
         }
 
@@ -94,14 +94,14 @@ namespace Licensing {
         }
 
         public static bool IsLicenseExpired(LicenseKeyPrefsModel licenseKeyPrefs) {
-            var expiryDate = ParseISODate(licenseKeyPrefs.ActivatedAt) + TimeSpan.FromDays(Month * licenseKeyPrefs.Data.Expiry);
+            var expiryDate = licenseKeyPrefs.ActivatedAt + TimeSpan.FromDays(Month * licenseKeyPrefs.Data.Expiry);
 
             if (DateTime.Now > expiryDate)
                 return true;
 
             return false;
         }
-        
+
     }
 
 }
