@@ -58,10 +58,7 @@ namespace Licensing {
             }
         }
 
-        public static LicenseKeyPrefsModel ParseLicenseKeyPrefs(LicenseKeyModel licenseKey) {
-            if (!IsServerLicenseValid(licenseKey))
-                throw new LicenseKeyIntegrityException();
-
+        public static LicenseKeyPrefsModel ParseLicenseKeyPrefs(LicenseKeyModel licenseKey) {        
             var dataBytes = Convert.FromBase64String(licenseKey.Data);
             var textData = Encoding.UTF8.GetString(dataBytes);
             var splittedTextData = textData.Split(", ");
